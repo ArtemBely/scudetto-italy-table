@@ -1,0 +1,17 @@
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.csproj.AssemblyReference.cache
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto_italy.Form1.resources
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.csproj.GenerateResource.cache
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.AssemblyInfoInputs.cache
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.AssemblyInfo.cs
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.csproj.CoreCompileInputs.cache
+C:\Users\belysheva\Desktop\scudetto-italy\bin\Debug\net6.0-windows\scudetto-italy.exe
+C:\Users\belysheva\Desktop\scudetto-italy\bin\Debug\net6.0-windows\scudetto-italy.deps.json
+C:\Users\belysheva\Desktop\scudetto-italy\bin\Debug\net6.0-windows\scudetto-italy.runtimeconfig.json
+C:\Users\belysheva\Desktop\scudetto-italy\bin\Debug\net6.0-windows\scudetto-italy.dll
+C:\Users\belysheva\Desktop\scudetto-italy\bin\Debug\net6.0-windows\scudetto-italy.pdb
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.dll
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\refint\scudetto-italy.dll
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.pdb
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\scudetto-italy.genruntimeconfig.cache
+C:\Users\belysheva\Desktop\scudetto-italy\obj\Debug\net6.0-windows\ref\scudetto-italy.dll

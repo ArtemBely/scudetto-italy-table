@@ -32,7 +32,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1200, 700);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
-            this.Text = "Seria A Table";
+            this.Text = "Italian Seria A / B Table (Standings)";
         }
 
         #endregion

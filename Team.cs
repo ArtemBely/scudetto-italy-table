@@ -10,22 +10,22 @@ namespace scudetto_italy
             Juventus,
             Milan,
             Napoli,
-            Torino,
             Inter,
-            Atalanta,
-            Udinese,
-            Fiorentina,
             Bologna,
-            Sassuolo,
-            Verona, 
-            Sampdoria,
-            Salernitana, 
-            Spezia,
+            Verona,  
             Cremoneze,
             Empoli,
             Lecce,
-            Monza,
-            Lazio
+            Parma,
+            SPAL,
+            Benevento,
+            Como,
+            Ascoli,
+            Palermo,
+            Brescia,
+            Ternana,
+            Perugia,
+            Genoa
         }
 
         public static class FootballClubInfo
@@ -52,38 +52,38 @@ namespace scudetto_italy
                         return "Milan";
                     case Team.Napoli:
                         return "Napoli";
-                    case Team.Torino:
-                        return "Torino";
-                    case Team.Atalanta:
-                        return "Atalanta";
+                    case Team.Genoa:
+                        return "Genoa";
+                    case Team.Perugia:
+                        return "Perugia";
                     case Team.Inter:
                         return "Inter";
-                    case Team.Udinese:
-                        return "Udinese";
-                    case Team.Fiorentina:
-                        return "Fiorentina";
+                    case Team.Como:
+                        return "Como";
+                    case Team.Brescia:
+                        return "Brescia";
                     case Team.Bologna:
                         return "Bologna";
-                    case Team.Sassuolo:
-                        return "Sassuolo";
+                    case Team.Palermo:
+                        return "Palermo";
                     case Team.Verona:
                         return "Verona";
-                    case Team.Sampdoria:
-                        return "Sampdoria";
-                    case Team.Salernitana:
-                        return "Salernitana";
-                    case Team.Spezia:
-                        return "Spezia";
+                    case Team.Ascoli:
+                        return "Ascoli";
+                    case Team.Benevento:
+                        return "Benevento";
+                    case Team.SPAL:
+                        return "SPAL";
                     case Team.Cremoneze:
                         return "Cremoneze";
                     case Team.Empoli:
                         return "Empoli";
                     case Team.Lecce:
                         return "Lecce";
-                    case Team.Monza:
-                        return "Monza";
-                    case Team.Lazio:
-                        return "Lazio";
+                    case Team.Parma:
+                        return "Parma";
+                    case Team.Ternana:
+                        return "Ternana";
                     default:
                         return "";
                 }

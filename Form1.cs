@@ -124,7 +124,7 @@ namespace scudetto_italy
             button6.BackColor = Color.FromArgb(0, 81, 255);
             button6.ForeColor = Color.FromArgb(255, 255, 255);
             button6.Font = new Font("Arial", fontSize);
-            //button6.Click += switchLeague;
+            button6.Click += btnLoad_Click;
             Controls.Add(button6);
 
             button7 = new Button();
@@ -135,7 +135,7 @@ namespace scudetto_italy
             button7.BackColor = Color.FromArgb(0, 81, 255);
             button7.ForeColor = Color.FromArgb(255, 255, 255);
             button7.Font = new Font("Arial", fontSize);
-            //button6.Click += switchLeague;
+            button7.Click += btnLoadClick;
             Controls.Add(button7);
 
             this.BackgroundImage = Image.FromFile
@@ -144,17 +144,19 @@ namespace scudetto_italy
             + @"../../Downloads/italy.jpg");
         }
 
-        private void switchLeague(object sender, EventArgs e)
-        {
+        public void defineLeagueButton() {
             if(button5.Text.Equals("Switch to Serie B")) {
                 button5.Text = "Switch to Serie A";
                 standings = new League(2, "Seria B", seriaBTeams);
             }
             else {
                 button5.Text = "Switch to Serie B";
-                //standings = new League(2, "Seria B", seriaBTeams);
                 standings = new League(1, "Seria A", seriaATeams);
             }
+        }
+        private void switchLeague(object sender, EventArgs e)
+        {
+            defineLeagueButton();
         }
 
         private void findButtonClicked(object sender, EventArgs e)
@@ -198,6 +200,32 @@ namespace scudetto_italy
             form3.Show();
         }
 
+        public void defineLeague() {
+            if(standings.Name.Equals("Seria A")) {
+                cb.Items.Add(Team.Roma);
+                cb.Items.Add(Team.Bologna);
+                cb.Items.Add(Team.Inter);
+                cb.Items.Add(Team.Cremoneze);
+                cb.Items.Add(Team.Juventus);
+                cb.Items.Add(Team.Lecce);
+                cb.Items.Add(Team.Milan);
+                cb.Items.Add(Team.Napoli);
+                cb.Items.Add(Team.Verona);
+                cb.Items.Add(Team.Empoli);
+            } else {   
+                cb.Items.Add(Team.Parma);
+                cb.Items.Add(Team.SPAL);
+                cb.Items.Add(Team.Benevento);
+                cb.Items.Add(Team.Como);
+                cb.Items.Add(Team.Ascoli);
+                cb.Items.Add(Team.Palermo);
+                cb.Items.Add(Team.Brescia);
+                cb.Items.Add(Team.Ternana);
+                cb.Items.Add(Team.Perugia);
+                cb.Items.Add(Team.Genoa);
+            }
+        }
+
          private void button1_Click(object sender, EventArgs e)
         {
             form2 = new Form();
@@ -222,29 +250,7 @@ namespace scudetto_italy
             tb5 = new TextBox();
             tb6 = new TextBox();
 
-            if(standings.Name.Equals("Seria A")) {
-                cb.Items.Add(Team.Roma);
-                cb.Items.Add(Team.Bologna);
-                cb.Items.Add(Team.Inter);
-                cb.Items.Add(Team.Cremoneze);
-                cb.Items.Add(Team.Juventus);
-                cb.Items.Add(Team.Lecce);
-                cb.Items.Add(Team.Milan);
-                cb.Items.Add(Team.Napoli);
-                cb.Items.Add(Team.Verona);
-                cb.Items.Add(Team.Empoli);
-            } else {   
-                cb.Items.Add(Team.Parma);
-                cb.Items.Add(Team.SPAL);
-                cb.Items.Add(Team.Benevento);
-                cb.Items.Add(Team.Como);
-                cb.Items.Add(Team.Ascoli);
-                cb.Items.Add(Team.Palermo);
-                cb.Items.Add(Team.Brescia);
-                cb.Items.Add(Team.Ternana);
-                cb.Items.Add(Team.Perugia);
-                cb.Items.Add(Team.Genoa);
-            }
+            defineLeague();
 
             cancelButton.Text = "Cancel";
             cancelButton.Height = 40;
@@ -426,6 +432,49 @@ namespace scudetto_italy
             string listViewAction = DateTime.Now + " | Player was edited: " + player?.Name;
             playerListBox.Items.Add(listViewAction);
             selectedPlayer = null;
+        }
+
+        private void btnLoadClick(object sender, EventArgs e)
+        {    
+            var saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "League files (*.league)|*.league";
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var serializer = new StatisticsFileSerializerDeserializer(players, saveFileDialog.FileName);
+                Console.WriteLine(serializer.ToString() + " SERIAL");
+                serializer.Save();
+                MessageBox.Show("League statistics was saved.");
+            }
+        }
+
+        private void btnLoad_Click(object sender, EventArgs e)
+        {
+            var openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "Player files (*.league)|*.league";
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var serializer = new StatisticsFileSerializerDeserializer(players, openFileDialog.FileName);
+                playerListView.Items.Clear();
+                playerListView.Refresh();
+                serializer.Load();
+                //players.Clear();
+                foreach (Player player1 in serializer.Load())
+                {
+                                players.Add(player1);
+                                item = new ListViewItem(player1.Club.ToString());
+                                item.SubItems.Add(player1.Name.ToString());
+                                item.SubItems.Add(player1.LastName.ToString());
+                                item.SubItems.Add(player1.GoalCount.ToString());
+                                item.SubItems.Add(player1.Assist.ToString());
+                                item.SubItems.Add(player1.Scores.ToString());
+                                playerListView.Items.Add(item);
+                                item.Tag = player1;
+
+                }
+                defineLeagueButton();
+                //defineLeague();
+                MessageBox.Show("Statistics was downloaded");
+            }
         }
     }
 }

@@ -2,7 +2,7 @@ namespace scudetto_italy
 {
 	public class Player
 		{
-
+			public List<Player> playersList = new List<Player>();
 			public string Name { get; set; }
 			public string LastName { get; set; }
 			public Team Club { get; set; }
@@ -19,6 +19,5 @@ namespace scudetto_italy
 				Assist = assist;
 				Scores = scores;
 			}
-
-		}
+    }
 }

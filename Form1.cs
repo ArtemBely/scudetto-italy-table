@@ -13,18 +13,20 @@ namespace scudetto_italy
     {
         public Player player;
         public List<Player> players = new List<Player>();
+        public List<ClubStats> clubs = new List<ClubStats>();
+        public List<ClubStats> clubsFinal = new List<ClubStats>();
         public Player? selectedPlayer = null;
         public Player? searchingPlayer = null;
         private int fontSize = 10;
         private ListBox playerListBox, clubsListBox;
         private Button button, button2, button3, button4,
-        button5, button6, button7, cancelButton, okButton, okBestButton;
-        private Label label1, label2, label3, label4, label5, label6;
+        button5, button6, button7, button8, cancelButton, okButton, okBestButton, serieAButton, serieBButton;
+        private Label label1, label2, label3, label4, label5, label6, label7;
         private ComboBox cb;
         private TextBox tb1, tb3, tb4, tb5, tb6, finder;
-        private Form form2, form3;
+        private Form form2, form3, form4, form5;
         private ListViewItem item, itemLv;
-        private ListView playerListView;
+        private ListView playerListView, clubsListView;
         public League standings;
         public Team[] seriaBTeams = { Team.Parma, Team.SPAL, Team.Benevento, Team.Como, Team.Ascoli,
                 Team.Palermo, Team.Brescia, Team.Ternana, Team.Perugia, Team.Genoa };
@@ -137,6 +139,17 @@ namespace scudetto_italy
             button7.Font = new Font("Arial", fontSize);
             button7.Click += btnLoadClick;
             Controls.Add(button7);
+
+            button8 = new Button();
+            button8.Text = "Show table";
+            button8.Location = new Point(935, 440);
+            button8.Height = 40;
+            button8.Width = 200;
+            button8.BackColor = Color.FromArgb(0, 81, 255);
+            button8.ForeColor = Color.FromArgb(255, 255, 255);
+            button8.Font = new Font("Arial", fontSize);
+            button8.Click += showClubsStatistic;
+            Controls.Add(button8);
 
             this.BackgroundImage = Image.FromFile
             (System.Environment.GetFolderPath
@@ -447,6 +460,152 @@ namespace scudetto_italy
             }
         }
 
+        private void showClubsStatistic(object? sender, EventArgs e)
+        {
+            form4 = new Form();
+            serieAButton = new Button();
+            serieBButton = new Button();
+            serieAButton.Text = "Serie A";
+            serieBButton.Text = "Serie B";
+            label7 = new Label();
+            label7.Text = "Choose league";
+            label7.Location = new Point(20, 30);
+            form4.Controls.Add(label7);
+
+            serieAButton.Height = 40;
+            serieAButton.Width = 150;
+            serieAButton.Location = new Point(12, 100);
+            serieAButton.Click += new EventHandler(downloadTable);
+            form4.Controls.Add(serieAButton);
+            serieBButton.Height = 40;
+            serieBButton.Width = 150;
+            serieBButton.Location = new Point(200, 100);
+            serieBButton.Click += new EventHandler(downloadTable2);
+            form4.Controls.Add(serieBButton);
+
+            form4.Text = "Choose league";
+            form4.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            form4.ClientSize = new System.Drawing.Size(365, 170);
+            form4.FormBorderStyle = FormBorderStyle.FixedSingle;
+            form4.Show();
+        }
+
+        private void downloadTable(object sender, EventArgs e)
+        {
+                string FileName = "C:/Users/belysheva/Downloads/seriea.league";
+                var serializer = new StatisticsFileSerializerDeserializer(players, FileName);
+                serializer.Load();
+
+                clubsListView = new ListView();
+                clubsListView.View = View.Details;
+                clubsListView.GridLines = true;
+                clubsListView.Size = new Size(900, 500);
+                clubsListView.Columns.Add("Team", 150);
+                clubsListView.Columns.Add("Goals", 150);
+                clubsListView.Columns.Add("Assists", 150);
+                clubsListView.Columns.Add("Scores", 150);
+                clubsListView.BackColor = Color.FromArgb(245, 248, 248);
+                clubsListView.SelectedIndexChanged += listView1_Click;
+
+                form5 = new Form();
+
+                form5.Text = "Standings";
+                form5.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                form5.ClientSize = new System.Drawing.Size(570, 300);
+                form5.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+                clubs.Clear();
+                clubsFinal.Clear();
+                foreach (Player player1 in serializer.Load())
+                {
+                        clubs.Add(new ClubStats(player1.Club, player1.GoalCount, player1.Assist, player1.Scores));
+                }
+                foreach (var team in clubs)
+                {
+                    var existingTeam = clubsFinal.FirstOrDefault(t => t.Club == team.Club);
+                    
+                    if (existingTeam != null)
+                    {
+                        existingTeam.Scores += team.Scores;
+                        existingTeam.GoalCount += team.GoalCount;
+                        existingTeam.Assist += team.Assist;
+                    }
+                    else
+                    {
+                        clubsFinal.Add(team);
+                    }
+                }
+                for(int i=0; i < clubsFinal.Count; i++) {
+                    Console.Write($"{clubsFinal[i].Club.ToString() + clubsFinal[i].Scores}");
+                                itemLv = new ListViewItem(clubsFinal[i].Club.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].GoalCount.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].Assist.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].Scores.ToString());
+                                clubsListView.Items.Add(itemLv);
+                                itemLv.Tag = clubsFinal[i];
+                }
+                form5.Controls.Add(clubsListView);
+                form5.Show();
+        }
+
+        private void downloadTable2(object sender, EventArgs e)
+        {
+                string FileName = "C:/Users/belysheva/Downloads/serieb.league";
+                var serializer = new StatisticsFileSerializerDeserializer(players, FileName);
+                serializer.Load();
+
+                clubsListView = new ListView();
+                clubsListView.View = View.Details;
+                clubsListView.GridLines = true;
+                clubsListView.Size = new Size(900, 500);
+                clubsListView.Columns.Add("Team", 150);
+                clubsListView.Columns.Add("Goals", 150);
+                clubsListView.Columns.Add("Assists", 150);
+                clubsListView.Columns.Add("Scores", 150);
+                clubsListView.BackColor = Color.FromArgb(245, 248, 248);
+                clubsListView.SelectedIndexChanged += listView1_Click;
+
+                form5 = new Form();
+
+                form5.Text = "Standings";
+                form5.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+                form5.ClientSize = new System.Drawing.Size(570, 300);
+                form5.FormBorderStyle = FormBorderStyle.FixedSingle;
+
+                clubs.Clear();
+                clubsFinal.Clear();
+                foreach (Player player1 in serializer.Load())
+                {
+                        clubs.Add(new ClubStats(player1.Club, player1.GoalCount, player1.Assist, player1.Scores));
+                }
+                foreach (var team in clubs)
+                {
+                    var existingTeam = clubsFinal.FirstOrDefault(t => t.Club == team.Club);
+                    
+                    if (existingTeam != null)
+                    {
+                        existingTeam.Scores += team.Scores;
+                        existingTeam.GoalCount += team.GoalCount;
+                        existingTeam.Assist += team.Assist;
+                    }
+                    else
+                    {
+                        clubsFinal.Add(team);
+                    }
+                }
+                for(int i=0; i < clubsFinal.Count; i++) {
+                    Console.Write($"{clubsFinal[i].Club.ToString() + clubsFinal[i].Scores}");
+                                itemLv = new ListViewItem(clubsFinal[i].Club.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].GoalCount.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].Assist.ToString());
+                                itemLv.SubItems.Add(clubsFinal[i].Scores.ToString());
+                                clubsListView.Items.Add(itemLv);
+                                itemLv.Tag = clubsFinal[i];
+                }
+                form5.Controls.Add(clubsListView);
+                form5.Show();
+        }
+
         private void btnLoad_Click(object sender, EventArgs e)
         {
             var openFileDialog = new OpenFileDialog();
@@ -469,10 +628,8 @@ namespace scudetto_italy
                                 item.SubItems.Add(player1.Scores.ToString());
                                 playerListView.Items.Add(item);
                                 item.Tag = player1;
-
                 }
                 defineLeagueButton();
-                //defineLeague();
                 MessageBox.Show("Statistics was downloaded");
             }
         }
